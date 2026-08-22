@@ -21,7 +21,7 @@
  *   />
  */
 
-import { C } from "../assets/components/content.js";
+import { C } from "./content.js";
 
 export default function WelcomeScreen({ t, setUserType, onNavigate }) {
   return (
