@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { C, soonData, trackData, hwTrackData } from "./assets/components/content.js";
 import WelcomeScreen from "./assets/components/WelcomeScreen.jsx";
 /* NHS Welcome Portal — React + Tailwind CSS
- * Content in ./assets/components/content.js
  * Screens extracted little by little into ./components/
  */
 
