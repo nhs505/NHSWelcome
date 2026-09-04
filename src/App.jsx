@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { C, soonData, trackData, hwTrackData } from "./assets/components/content.js";
 import WelcomeScreen from "./assets/components/WelcomeScreen.jsx";
+import Particles from "./assets/components/particles.jsx";
 /* NHS Welcome Portal — React + Tailwind CSS
  * Screens extracted little by little into ./components/
  */
@@ -185,7 +186,7 @@ export default function App() {
   const ProceedBtn = ({ children, onClick }) => (
     <button
       onClick={onClick}
-      className="inline-flex items-center gap-2.5 bg-gradient-to-br from-[#f0a500] to-[#e09000] text-[#1a0e00] font-extrabold text-base border-none rounded-[11px] px-8 py-4 cursor-pointer shadow-[0_0_28px_rgba(240,165,0,0.3)] hover:-translate-y-0.5 hover:shadow-[0_0_42px_rgba(240,165,0,0.5)] transition-all font-['Space_Grotesk']">
+      className="inline-flex items-center gap-2.5 bg-linear-to-br from-[#f0a500] to-[#e09000] text-[#1a0e00] font-extrabold text-base border-none rounded-[11px] px-8 py-4 cursor-pointer shadow-[0_0_28px_rgba(240,165,0,0.3)] hover:-translate-y-0.5 hover:shadow-[0_0_42px_rgba(240,165,0,0.5)] transition-all font-['Space_Grotesk']">
       {children}
     </button>
   );
@@ -197,21 +198,22 @@ export default function App() {
   );
 
   return (
-
-    <div className="relative min-h-screen bg-[#08090c] text-slate-200 font-['Space_Grotesk'] antialiased overflow-x-hidden">
+    
+    <div className="relative min-h-screen bg-[#08090c] text-slate-200 font-['Space_Grotesk'] antialiased no-scrollbar">
       <canvas
         ref={canvasRef}
         className="fixed inset-0 z-0 pointer-events-none"
       />
-      <div className="fixed inset-0 z-[1] bg-[radial-gradient(ellipse_90%_80%_at_50%_50%,transparent_40%,rgba(8,9,12,0.75))] pointer-events-none" />
-      <div className="fixed inset-0 z-[2] bg-[repeating-linear-gradient(0deg,transparent,transparent_3px,rgba(0,0,0,0.06)_3px,rgba(0,0,0,0.06)_4px)] pointer-events-none" />
+      <Particles />
+      <div className="fixed inset-0 z-1 bg-[radial-linear(ellipse_90%_80%_at_50%_50%,transparent_40%,rgba(8,9,12,0.75))] pointer-events-none" />
+      <div className="fixed inset-0 z-2 bg-[repeating-linear-linear(0deg,transparent,transparent_3px,rgba(0,0,0,0.06)_3px,rgba(0,0,0,0.06)_4px)] pointer-events-none" />
       <div
-        className={`fixed top-[18px] right-5 z-[200] flex gap-0 bg-[#131920] border border-[#1c2530] rounded-[20px] overflow-hidden transition-opacity duration-300 ${langVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        className={`fixed top-4.5 right-5 z-200 flex gap-0 bg-[#131920] border border-[#1c2530] rounded-[20px] overflow-hidden transition-opacity duration-300 ${langVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
         {["en", "tl"].map((l) => (
           <button
             key={l}
             onClick={() => setLang(l)}
-            className={`bg-transparent border-none font-mono text-[11px] px-[15px] py-2 cursor-pointer tracking-[0.08em] transition-colors ${lang === l ? "bg-[#181f28] text-[#f0a500]" : "text-[#64748b] hover:text-slate-200"}`}>
+            className={`bg-transparent border-none font-mono text-[11px] px-3.75 py-2 cursor-pointer tracking-[0.08em] transition-colors ${lang === l ? "bg-[#181f28] text-[#f0a500]" : "text-[#64748b] hover:text-slate-200"}`}>
             {l.toUpperCase()}
           </button>
         ))}
@@ -223,7 +225,7 @@ export default function App() {
           className="items-start justify-start p-12 md:p-[48px_52px]">
           <div
             ref={bootLogRef}
-            className="font-mono text-[13px] leading-[1.9] text-[#4a6070] max-w-[700px]"
+            className="font-mono text-[13px] leading-[1.9] text-[#4a6070] max-w-175"
           />
         </Screen>
 
@@ -235,7 +237,7 @@ export default function App() {
         </Screen>
 
         <Screen id="s-nhs">
-          <div className="max-w-[900px] w-full mx-auto px-6 py-[60px] pb-20">
+          <div className="max-w-225 w-full mx-auto px-6 py-15 pb-20">
             <BackBtn onClick={() => show("s-welcome")}>
               {t(C.nhs.backToWelcome)}
             </BackBtn>
@@ -294,12 +296,12 @@ export default function App() {
               ].map((item, i) => (
                 <div key={i} className="contents">
                   {i > 0 && (
-                    <div className="text-[22px] text-[#2d3a47] px-2.5 flex-shrink-0">
+                    <div className="text-[22px] text-[#2d3a47] px-2.5 shrink-0">
                       →
                     </div>
                   )}
                   <div
-                    className={`bg-[#131920] border rounded-[10px] p-[18px_22px] flex-1 min-w-[160px] ${item.hi ? "border-[rgba(240,165,0,0.35)] bg-[#140f00]" : "border-[#1c2530]"}`}>
+                    className={`bg-[#131920] border rounded-[10px] p-[18px_22px] flex-1 min-w-40 ${item.hi ? "border-[rgba(240,165,0,0.35)] bg-[#140f00]" : "border-[#1c2530]"}`}>
                     <div
                       className={`font-mono text-[10px] tracking-[0.15em] uppercase mb-1.5 ${item.hi ? "text-[#f0a500]" : "text-[#64748b]"}`}>
                       {item.code}
@@ -363,7 +365,7 @@ export default function App() {
                   <div
                     key={i}
                     className="flex items-start gap-2.5 text-[13.5px] text-[#64748b] leading-relaxed">
-                    <span className="text-green-400 font-bold flex-shrink-0">
+                    <span className="text-green-400 font-bold shrink-0">
                       ✓
                     </span>
                     {t(w)}{" "}
@@ -385,7 +387,7 @@ export default function App() {
         </Screen>
 
         <Screen id="s-groups">
-          <div className="max-w-[900px] w-full mx-auto px-6 py-[60px] pb-20">
+          <div className="max-w-225 w-full mx-auto px-6 py-15 pb-20">
             <BackBtn onClick={() => show("s-nhs")}>{t(C.grp.back)}</BackBtn>
             <div className="mb-11">
               <div className="font-mono text-[11px] tracking-[0.22em] uppercase text-[#f0a500] mb-3">
@@ -398,11 +400,11 @@ export default function App() {
                 {t(C.grp.lead)}
               </p>
             </div>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] gap-[17px]">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] gap-4.25">
               <div
                 onClick={() => show("s-hardware")}
-                className="bg-[#131920] border border-[#1c2530] rounded-[15px] p-[24px_22px] cursor-pointer relative overflow-hidden transition-all hover:-translate-y-[3px] flex flex-col hover:border-[rgba(74,222,128,0.4)] hover:bg-[rgba(74,222,128,0.03)]">
-                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-green-400 to-[#f0a500]" />
+                className="bg-[#131920] border border-[#1c2530] rounded-[15px] p-[24px_22px] cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.75 flex flex-col hover:border-[rgba(74,222,128,0.4)] hover:bg-[rgba(74,222,128,0.03)]">
+                <div className="absolute top-0 left-0 right-0 h-0.75 bg-linear-to-r from-green-400 to-[#f0a500]" />
                 <div className="inline-flex items-center gap-1.5 bg-[rgba(74,222,128,0.1)] border border-[rgba(74,222,128,0.3)] rounded-[20px] px-3 py-1 font-mono text-[9.5px] text-green-400 tracking-[0.08em] uppercase mb-2.5 w-fit">
                   {t(C.grp.startHere)}
                 </div>
@@ -417,7 +419,7 @@ export default function App() {
                   {t(C.grp.g00desc)}
                 </div>
                 <div className="mt-3.5 flex items-center gap-1.5 font-mono text-[10.5px] text-[#f0a500]">
-                  <span className="w-[7px] h-[7px] rounded-full bg-[#f0a500] shadow-[0_0_6px_rgba(240,165,0,0.5)]" />
+                  <span className="w-1.75 h-1.75 rounded-full bg-[#f0a500] shadow-[0_0_6px_rgba(240,165,0,0.5)]" />
                   {t(C.grp.statusOpen)}
                 </div>
                 <button className="mt-3 w-full border text-[13px] font-semibold py-2.5 rounded-lg cursor-pointer bg-[rgba(74,222,128,0.12)] border-[rgba(74,222,128,0.3)] text-green-400">
@@ -472,9 +474,9 @@ export default function App() {
                         show("s-soon");
                       }
                     }}
-                    className={`bg-[#131920] border border-[#1c2530] rounded-[15px] p-[24px_22px] cursor-pointer relative overflow-hidden transition-all hover:-translate-y-[3px] flex flex-col ${isInfra ? "hover:border-[rgba(240,165,0,0.4)] hover:bg-[#12100a]" : ""}`}>
+                    className={`bg-[#131920] border border-[#1c2530] rounded-[15px] p-[24px_22px] cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.75 flex flex-col ${isInfra ? "hover:border-[rgba(240,165,0,0.4)] hover:bg-[#12100a]" : ""}`}>
                     <div
-                      className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${bar}`}
+                      className={`absolute top-0 left-0 right-0 h-0.75 bg-linear-to-r ${bar}`}
                     />
                     <div className="text-[30px] mb-3">{icon}</div>
                     <div
@@ -490,7 +492,7 @@ export default function App() {
                     <div
                       className={`mt-3.5 flex items-center gap-1.5 font-mono text-[10.5px] ${isInfra ? "text-[#f0a500]" : "text-[#2d3a47]"}`}>
                       <span
-                        className={`w-[7px] h-[7px] rounded-full ${isInfra ? "bg-[#f0a500] shadow-[0_0_6px_rgba(240,165,0,0.5)]" : "bg-[#2d3a47]"}`}
+                        className={`w-1.75 h-1.75 rounded-full ${isInfra ? "bg-[#f0a500] shadow-[0_0_6px_rgba(240,165,0,0.5)]" : "bg-[#2d3a47]"}`}
                       />
                       {isInfra ? t(C.grp.statusOpen) : t(C.grp.statusSoon)}
                     </div>
@@ -509,7 +511,7 @@ export default function App() {
 
         <Screen id="s-soon">
           {activeSoonGroup && soonData[activeSoonGroup] && (
-            <div className="max-w-[520px] mx-auto px-6 py-14 pb-20">
+            <div className="max-w-130 mx-auto px-6 py-14 pb-20">
               <BackBtn onClick={() => show("s-groups")}>
                 {t(C.soon.backBtn)}
               </BackBtn>
@@ -526,11 +528,11 @@ export default function App() {
                 {t(C.soon.lead)}
               </p>
               <div className="bg-[#131920] border border-[#1c2530] rounded-[10px] p-4 mb-7">
-                <div className="font-mono text-[10.5px] text-[#64748b] mb-2.5 tracking-[0.1em]">
+                <div className="font-mono text-[10.5px] text-[#64748b] mb-2.5 tracking-widest">
                   {t(C.soon.barLabel)}
                 </div>
                 <div className="bg-[#1c2530] rounded h-1.5 overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-[#f0a500] to-[#ffc040] rounded w-[15%]" />
+                  <div className="h-full bg-linear-to-r from-[#f0a500] to-[#ffc040] rounded w-[15%]" />
                 </div>
               </div>
               <div className="font-mono text-[11px] tracking-[0.2em] text-[#64748b] uppercase mb-2.5">
@@ -557,13 +559,13 @@ export default function App() {
         </Screen>
 
         <Screen id="s-itinfra">
-          <div className="max-w-[1020px] w-full mx-auto px-6 py-[60px] pb-20">
+          <div className="max-w-255 w-full mx-auto px-6 py-15 pb-20">
             <BackBtn onClick={() => show("s-groups")}>{t(C.itf.back)}</BackBtn>
             <div className="mb-12">
               <div className="font-mono text-[11px] tracking-[0.22em] text-[#f0a500] uppercase mb-2.5">
                 {t(C.itf.eyebrow)}
               </div>
-              <h1 className="text-[clamp(28px,5vw,58px)] font-extrabold leading-[1.05] tracking-[-0.025em] mb-3.5">
+              <h1 className="text-[clamp(28px,5vw,58px)] font-extrabold leading-[1.05] tracking-tight mb-3.5">
                 {t(C.itf.h1)}{" "}
                 <span className="text-[#f0a500]">{t(C.itf.h2)}</span>
                 <br />
@@ -600,7 +602,7 @@ export default function App() {
             <p className="text-sm text-[#64748b] mb-7 leading-relaxed">
               {t(C.itf.tracksSub)}
             </p>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(265px,1fr))] gap-[15px]">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(265px,1fr))] gap-3.75">
               {Object.keys(trackData).map((id) => {
                 const d = trackData[id];
                 const avail = d.lessons.filter((l) => l.available).length;
@@ -620,7 +622,7 @@ export default function App() {
                     className="bg-[#131920] border border-[#1c2530] rounded-[13px] p-5 cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.5 flex flex-col">
                     <div className="text-[26px] mb-2.5">{d.icon}</div>
                     <span
-                      className={`font-mono text-[9.5px] tracking-[0.1em] uppercase border rounded px-2 py-0.5 inline-block mb-1.5 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : d.level === "intermediate" ? "text-amber-400 border-[rgba(245,158,11,0.3)]" : "text-red-400 border-[rgba(248,113,113,0.3)]"}`}>
+                      className={`font-mono text-[9.5px] tracking-widest uppercase border rounded px-2 py-0.5 inline-block mb-1.5 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : d.level === "intermediate" ? "text-amber-400 border-[rgba(245,158,11,0.3)]" : "text-red-400 border-[rgba(248,113,113,0.3)]"}`}>
                       {levelMap[d.level]}
                     </span>
                     <div className="text-[15.5px] font-bold mb-1.5">
@@ -658,16 +660,16 @@ export default function App() {
         </Screen>
 
         <Screen id="s-hardware">
-          <div className="max-w-[1020px] w-full mx-auto px-6 py-[60px] pb-20">
+          <div className="max-w-255 w-full mx-auto px-6 py-15 pb-20">
             <BackBtn onClick={() => show("s-groups")}>{t(C.hw.back)}</BackBtn>
-            <div className="bg-[rgba(74,222,128,0.06)] border border-[rgba(74,222,128,0.2)] rounded-xl px-[18px] py-3.5 mb-8 font-mono text-[11.5px] text-green-400 flex items-center gap-2.5">
+            <div className="bg-[rgba(74,222,128,0.06)] border border-[rgba(74,222,128,0.2)] rounded-xl px-4.5 py-3.5 mb-8 font-mono text-[11.5px] text-green-400 flex items-center gap-2.5">
               🔧 {t(C.hw.strip)}
             </div>
             <div className="mb-12">
               <div className="font-mono text-[11px] tracking-[0.22em] text-[#f0a500] uppercase mb-2.5">
                 {t(C.hw.eyebrow)}
               </div>
-              <h1 className="text-[clamp(28px,5vw,58px)] font-extrabold leading-[1.05] tracking-[-0.025em] mb-3.5 text-slate-200">
+              <h1 className="text-[clamp(28px,5vw,58px)] font-extrabold leading-[1.05] tracking-tight mb-3.5 text-slate-200">
                 {t(C.hw.h1)}{" "}
                 <span className="text-green-400">{t(C.hw.h2)}</span>
                 <br />
@@ -704,7 +706,7 @@ export default function App() {
             <p className="text-sm text-[#64748b] mb-7 leading-relaxed">
               {t(C.hw.tracksSub)}
             </p>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(265px,1fr))] gap-[15px]">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(265px,1fr))] gap-3.75">
               {hwTrackData.map((d) => (
                 <div
                   key={d.id}
@@ -717,7 +719,7 @@ export default function App() {
                   style={{ borderBottom: `2px solid ${d.color}` }}>
                   <div className="text-[26px] mb-2.5">{d.icon}</div>
                   <span
-                    className={`font-mono text-[9.5px] tracking-[0.1em] uppercase border rounded px-2 py-0.5 inline-block mb-1.5 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : "text-amber-400 border-[rgba(245,158,11,0.3)]"}`}>
+                    className={`font-mono text-[9.5px] tracking-widest uppercase border rounded px-2 py-0.5 inline-block mb-1.5 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : "text-amber-400 border-[rgba(245,158,11,0.3)]"}`}>
                     {t(d.levelLabel)}
                   </span>
                   <div className="text-[15.5px] font-bold mb-1.5">
@@ -750,7 +752,7 @@ export default function App() {
               if (!d) return null;
               const avail = d.lessons.filter((l) => l.available);
               return (
-                <div className="max-w-[860px] w-full mx-auto px-6 py-14 pb-20">
+                <div className="max-w-215 w-full mx-auto px-6 py-14 pb-20">
                   <BackBtn
                     onClick={() => {
                       if (isHw) show("s-hardware");
@@ -765,7 +767,7 @@ export default function App() {
                   <div className="mb-8">
                     <div className="flex items-start gap-4 mb-4">
                       <div
-                        className="w-[60px] h-[60px] rounded-[13px] flex items-center justify-center text-[27px] flex-shrink-0"
+                        className="w-15 h-15 rounded-[13px] flex items-center justify-center text-[27px] shrink-0"
                         style={{
                           background: `${d.color}15`,
                           border: `1px solid ${d.color}40`,
@@ -830,11 +832,11 @@ export default function App() {
                             window.open(l.url, "_blank");
                         }}
                         className={`flex items-start gap-3 bg-[#131920] border border-[#1c2530] rounded-lg p-[13px_14px] transition-colors ${l.available ? "cursor-pointer hover:border-[#2a3a4d] hover:bg-[#181f28]" : "cursor-default"}`}>
-                        <span className="font-mono text-[11px] text-[#2d3a47] w-5 text-right flex-shrink-0 pt-0.5">
+                        <span className="font-mono text-[11px] text-[#2d3a47] w-5 text-right shrink-0 pt-0.5">
                           {String(l.n).padStart(2, "0")}
                         </span>
                         <span
-                          className={`w-[9px] h-[9px] rounded-full flex-shrink-0 mt-1 ${l.available ? "bg-green-400 border border-green-400 shadow-[0_0_5px_rgba(74,222,128,0.4)]" : "bg-[#2d3a47] border border-[#1c2530]"}`}
+                          className={`w-2.25 h-2.25 rounded-full shrink-0 mt-1 ${l.available ? "bg-green-400 border border-green-400 shadow-[0_0_5px_rgba(74,222,128,0.4)]" : "bg-[#2d3a47] border border-[#1c2530]"}`}
                         />
                         <div className="flex-1 min-w-0">
                           <div
@@ -847,11 +849,11 @@ export default function App() {
                           </div>
                         </div>
                         <span
-                          className={`font-mono text-[9.5px] whitespace-nowrap pt-0.5 flex-shrink-0 ${l.available ? "text-green-400" : "text-[#2d3a47]"}`}>
+                          className={`font-mono text-[9.5px] whitespace-nowrap pt-0.5 shrink-0 ${l.available ? "text-green-400" : "text-[#2d3a47]"}`}>
                           {l.available ? t(C.td.avail) : t(C.td.soon)}
                         </span>
                         {l.available && (
-                          <span className="text-[#64748b] text-[13px] pt-0.5 flex-shrink-0">
+                          <span className="text-[#64748b] text-[13px] pt-0.5 shrink-0">
                             →
                           </span>
                         )}

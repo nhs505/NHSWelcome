@@ -26,10 +26,10 @@ import { C } from "./content.js";
 export default function WelcomeScreen({ t, setUserType, onNavigate }) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-10 md:p-[40px_24px]">
-      <div className="max-w-[720px] w-full text-center">
+      <div className="max-w-180 w-full text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-[#131920] border border-[#2a3a4d] rounded-[20px] px-4 py-2 font-mono text-[11px] tracking-[0.15em] text-[#64748b] uppercase mb-7">
-          <span className="w-[7px] h-[7px] rounded-full bg-[#f0a500] shadow-[0_0_8px_#f0a500] animate-pulse" />
+          <span className="w-1.75 h-1.75 rounded-full bg-[#f0a500] shadow-[0_0_8px_#f0a500] animate-pulse" />
           {t(C.w.badge)}
         </div>
 
@@ -55,7 +55,7 @@ export default function WelcomeScreen({ t, setUserType, onNavigate }) {
         </p>
 
         {/* Path cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 max-w-[560px] mx-auto mb-9">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 max-w-140 mx-auto mb-9">
           {/* Recruit */}
           <div
             onClick={() => {
@@ -96,7 +96,7 @@ export default function WelcomeScreen({ t, setUserType, onNavigate }) {
         {/* Skip link */}
         <div
           onClick={() => onNavigate("s-groups")}
-          className="font-mono text-[11px] text-[#2d3a47] tracking-[0.1em] cursor-pointer hover:text-[#64748b]"
+          className="font-mono text-[11px] text-[#2d3a47] tracking-widest cursor-pointer hover:text-[#64748b]"
         >
           {t(C.w.skip)}
         </div>
