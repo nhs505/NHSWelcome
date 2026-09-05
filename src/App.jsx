@@ -179,7 +179,7 @@ export default function App() {
   const BackBtn = ({ children, onClick }) => (
     <button
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 bg-transparent border border-[#1c2530] text-[#64748b] font-mono text-[11.5px] px-3.5 py-1.5 rounded-md cursor-pointer mb-7 hover:text-slate-200 hover:border-[#64748b] transition-colors">
+      className="inline-flex items-center gap-1.5 bg-transparent border border-[#1c2530] text-[#64748b] font-mono text-[11.5px] px-3.5 py-1.5 rounded-md cursor-pointer mb-7 hover:text-slate-200 hover:border-[#64748b] transition-colors ">
       {children}
     </button>
   );

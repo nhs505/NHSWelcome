@@ -57,7 +57,7 @@ export const C = {
       tl: "Network ba'y mabagal at Hardware ay sira? Halina sa team at makitang ang problema ay mawala!",
     },
     rlabel: { en: "For New Recruits", tl: "Para sa mga Bagong Miyembro" },
-    rtitle: { en: "I'm brand new here", tl: "Bago pa ako dito" },
+    rtitle: { en: "I'm new here", tl: "Bago pa ako dito" },
     rdesc: {
       en: "First time hearing about NHS? No technical background at all? Perfect — this is built exactly for you.",
       tl: "Unang beses mong marinig ang NHS? Walang background sa teknolohiya? Perpekto — ito ay ginawa para sa iyo.",
