@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { C, soonData, trackData, hwTrackData } from "./assets/components/content.js";
 import WelcomeScreen from "./assets/components/WelcomeScreen.jsx";
 import Particles from "./assets/components/particles.jsx";
+import pageProtect from "./assets/components/pageProtect.jsx";
+import IdleConsole from "./assets/components/idleConsole.jsx";
 /* NHS Welcome Portal — React + Tailwind CSS
  * Screens extracted little by little into ./components/
  */
@@ -199,12 +201,15 @@ export default function App() {
 
   return (
     
-    <div className="relative min-h-screen bg-[#08090c] text-slate-200 font-['Space_Grotesk'] antialiased no-scrollbar">
+    <div className="relative min-h-screen bg-[#08090cf5] text-slate-200 font-['Space_Grotesk'] antialiased no-scrollbar">
+      <pageProtect />
       <canvas
         ref={canvasRef}
         className="fixed inset-0 z-0 pointer-events-none"
       />
       <Particles />
+      {/* <IdleConsole idleMs={10000} enabled={true} /> */}
+      
       <div className="fixed inset-0 z-1 bg-[radial-linear(ellipse_90%_80%_at_50%_50%,transparent_40%,rgba(8,9,12,0.75))] pointer-events-none" />
       <div className="fixed inset-0 z-2 bg-[repeating-linear-linear(0deg,transparent,transparent_3px,rgba(0,0,0,0.06)_3px,rgba(0,0,0,0.06)_4px)] pointer-events-none" />
       <div

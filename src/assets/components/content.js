@@ -418,7 +418,7 @@ export const C = {
       tl: "Binubuksan ang buong 12-aralin na Field Course",
     },
     buildNote: {
-      en: "This track is actively being built. Check back soon.",
+      en: "This track is under development. Check back soon.",
       tl: "Aktibo pa ring itinatayo ang track na ito. Bumalik malapit na.",
     },
     back: {
