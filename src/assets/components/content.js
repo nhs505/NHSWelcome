@@ -53,8 +53,8 @@ export const C = {
       tl: "Network at Hardware Support",
     },    
     sub2: {
-      en: "Networks slow and Hardware down ? Join the squad and watch how it's done!",
-      tl: "Network ba'y mabagal at Hardware ay sira? Halina sa team at makitang ang problema ay mawala!",
+      en: "Networks slow and Hardware down ? Join the team and watch how it's done!",
+      tl: "Network na mabagal at Hardware na sira? Sumali sa team at tingnan kung paano ito ginagawa!",
     },
     rlabel: { en: "For New Recruits", tl: "Para sa mga Bagong Miyembro" },
     rtitle: { en: "I'm new here", tl: "Bago pa ako dito" },

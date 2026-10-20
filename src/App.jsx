@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { C, soonData, trackData, hwTrackData } from "./assets/components/content.js";
+import {
+  C,
+  soonData,
+  trackData,
+  hwTrackData,
+} from "./assets/components/content.js";
 import WelcomeScreen from "./assets/components/WelcomeScreen.jsx";
 import Particles from "./assets/components/particles.jsx";
-import pageProtect from "./assets/components/pageProtect.jsx";
 import IdleConsole from "./assets/components/idleConsole.jsx";
 /* NHS Welcome Portal — React + Tailwind CSS
  * Screens extracted little by little into ./components/
@@ -26,6 +30,28 @@ export default function App() {
     setCurrentScreen(id);
     window.scrollTo(0, 0);
   };
+
+  const [showNotice, setShowNotice] = useState(false);
+
+  useEffect(() => {
+    const blockContextMenu = (e) => {
+      e.preventDefault();
+
+      // Show the notification
+      setShowNotice(true);
+
+      // Auto-hide after 2.5 seconds
+      setTimeout(() => {
+        setShowNotice(false);
+      }, 2500);
+    };
+
+    document.addEventListener("contextmenu", blockContextMenu);
+
+    return () => {
+      document.removeEventListener("contextmenu", blockContextMenu);
+    };
+  }, []);
 
   useEffect(() => {
     const cv = canvasRef.current;
@@ -175,50 +201,61 @@ export default function App() {
     };
   }, [currentScreen, bootDone]);
 
-
   // ── Content imported from ./data/content.js ──
 
   const BackBtn = ({ children, onClick }) => (
     <button
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 bg-transparent border border-[#1c2530] text-[#64748b] font-mono text-[11.5px] px-3.5 py-1.5 rounded-md cursor-pointer mb-7 hover:text-slate-200 hover:border-[#64748b] transition-colors ">
+      className="inline-flex items-center gap-1.5 bg-transparent border border-[#1c2530] text-[#64748b] font-mono text-[11.5px] px-3.5 py-1.5 rounded-md cursor-pointer mb-7 hover:text-slate-200 hover:border-[#64748b] transition-colors "
+    >
       {children}
     </button>
   );
   const ProceedBtn = ({ children, onClick }) => (
     <button
       onClick={onClick}
-      className="inline-flex items-center gap-2.5 bg-linear-to-br from-[#f0a500] to-[#e09000] text-[#1a0e00] font-extrabold text-base border-none rounded-[11px] px-8 py-4 cursor-pointer shadow-[0_0_28px_rgba(240,165,0,0.3)] hover:-translate-y-0.5 hover:shadow-[0_0_42px_rgba(240,165,0,0.5)] transition-all font-['Space_Grotesk']">
+      className="inline-flex items-center gap-2.5 bg-linear-to-br from-[#f0a500] to-[#e09000] text-[#1a0e00] font-extrabold text-base border-none rounded-[11px] px-8 py-4 cursor-pointer shadow-[0_0_28px_rgba(240,165,0,0.3)] hover:-translate-y-0.5 hover:shadow-[0_0_42px_rgba(240,165,0,0.5)] transition-all font-['Space_Grotesk']"
+    >
       {children}
     </button>
   );
   const Screen = ({ id, children, className = "" }) => (
     <div
-      className={`${currentScreen === id ? "flex" : "hidden"} min-h-screen flex-col ${className}`}>
+      className={`${currentScreen === id ? "flex" : "hidden"} min-h-screen flex-col ${className}`}
+    >
       {children}
     </div>
   );
 
   return (
-    
     <div className="relative min-h-screen bg-[#08090cf5] text-slate-200 font-['Space_Grotesk'] antialiased no-scrollbar">
-      <pageProtect />
+      <video
+        src="/videos/robot-transparent.webm"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover opacity-20"
+      />
       <canvas
         ref={canvasRef}
         className="fixed inset-0 z-0 pointer-events-none"
       />
+
       <Particles />
       {/* <IdleConsole idleMs={10000} enabled={true} /> */}
-      
+
       <div className="fixed inset-0 z-1 bg-[radial-linear(ellipse_90%_80%_at_50%_50%,transparent_40%,rgba(8,9,12,0.75))] pointer-events-none" />
       <div className="fixed inset-0 z-2 bg-[repeating-linear-linear(0deg,transparent,transparent_3px,rgba(0,0,0,0.06)_3px,rgba(0,0,0,0.06)_4px)] pointer-events-none" />
       <div
-        className={`fixed top-4.5 right-5 z-200 flex gap-0 bg-[#131920] border border-[#1c2530] rounded-[20px] overflow-hidden transition-opacity duration-300 ${langVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        className={`fixed top-4.5 right-5 z-200 flex gap-0 bg-[#131920] border border-[#1c2530] rounded-[20px] overflow-hidden transition-opacity duration-300 ${langVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+      >
         {["en", "tl"].map((l) => (
           <button
             key={l}
             onClick={() => setLang(l)}
-            className={`bg-transparent border-none font-mono text-[11px] px-3.75 py-2 cursor-pointer tracking-[0.08em] transition-colors ${lang === l ? "bg-[#181f28] text-[#f0a500]" : "text-[#64748b] hover:text-slate-200"}`}>
+            className={`bg-transparent border-none font-mono text-[11px] px-3.75 py-2 cursor-pointer tracking-[0.08em] transition-colors ${lang === l ? "bg-[#181f28] text-[#f0a500]" : "text-[#64748b] hover:text-slate-200"}`}
+          >
             {l.toUpperCase()}
           </button>
         ))}
@@ -227,7 +264,8 @@ export default function App() {
       <div className="relative z-10">
         <Screen
           id="s-boot"
-          className="items-start justify-start p-12 md:p-[48px_52px]">
+          className="items-start justify-start p-12 md:p-[48px_52px]"
+        >
           <div
             ref={bootLogRef}
             className="font-mono text-[13px] leading-[1.9] text-[#4a6070] max-w-175"
@@ -237,7 +275,8 @@ export default function App() {
         {/* Welcome screen — extracted component + optional Router path */}
         <Screen
           id="s-welcome"
-          className="items-center justify-center p-10 md:p-[40px_24px]">
+          className="items-center justify-center p-10 md:p-[40px_24px]"
+        >
           <WelcomeScreen t={t} setUserType={setUserType} onNavigate={show} />
         </Screen>
 
@@ -306,9 +345,11 @@ export default function App() {
                     </div>
                   )}
                   <div
-                    className={`bg-[#131920] border rounded-[10px] p-[18px_22px] flex-1 min-w-40 ${item.hi ? "border-[rgba(240,165,0,0.35)] bg-[#140f00]" : "border-[#1c2530]"}`}>
+                    className={`bg-[#131920] border rounded-[10px] p-[18px_22px] flex-1 min-w-40 ${item.hi ? "border-[rgba(240,165,0,0.35)] bg-[#140f00]" : "border-[#1c2530]"}`}
+                  >
                     <div
-                      className={`font-mono text-[10px] tracking-[0.15em] uppercase mb-1.5 ${item.hi ? "text-[#f0a500]" : "text-[#64748b]"}`}>
+                      className={`font-mono text-[10px] tracking-[0.15em] uppercase mb-1.5 ${item.hi ? "text-[#f0a500]" : "text-[#64748b]"}`}
+                    >
                       {item.code}
                     </div>
                     <div className="text-base font-bold mb-1">{item.name}</div>
@@ -345,7 +386,8 @@ export default function App() {
               ].map((card, i) => (
                 <div
                   key={i}
-                  className="bg-[#131920] border border-[#1c2530] rounded-xl p-5">
+                  className="bg-[#131920] border border-[#1c2530] rounded-xl p-5"
+                >
                   <div className="text-2xl mb-2.5">{card.icon}</div>
                   <div className="text-[15px] font-bold mb-1.5">
                     {card.title}
@@ -369,10 +411,9 @@ export default function App() {
                 {C.nhs.who.map((w, i) => (
                   <div
                     key={i}
-                    className="flex items-start gap-2.5 text-[13.5px] text-[#64748b] leading-relaxed">
-                    <span className="text-green-400 font-bold shrink-0">
-                      ✓
-                    </span>
+                    className="flex items-start gap-2.5 text-[13.5px] text-[#64748b] leading-relaxed"
+                  >
+                    <span className="text-green-400 font-bold shrink-0">✓</span>
                     {t(w)}{" "}
                     <strong className="text-slate-200 ml-1">Welcome.</strong>
                   </div>
@@ -408,7 +449,8 @@ export default function App() {
             <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] gap-4.25">
               <div
                 onClick={() => show("s-hardware")}
-                className="bg-[#131920] border border-[#1c2530] rounded-[15px] p-[24px_22px] cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.75 flex flex-col hover:border-[rgba(74,222,128,0.4)] hover:bg-[rgba(74,222,128,0.03)]">
+                className="bg-[#131920] border border-[#1c2530] rounded-[15px] p-[24px_22px] cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.75 flex flex-col hover:border-[rgba(74,222,128,0.4)] hover:bg-[rgba(74,222,128,0.03)]"
+              >
                 <div className="absolute top-0 left-0 right-0 h-0.75 bg-linear-to-r from-green-400 to-[#f0a500]" />
                 <div className="inline-flex items-center gap-1.5 bg-[rgba(74,222,128,0.1)] border border-[rgba(74,222,128,0.3)] rounded-[20px] px-3 py-1 font-mono text-[9.5px] text-green-400 tracking-[0.08em] uppercase mb-2.5 w-fit">
                   {t(C.grp.startHere)}
@@ -479,13 +521,15 @@ export default function App() {
                         show("s-soon");
                       }
                     }}
-                    className={`bg-[#131920] border border-[#1c2530] rounded-[15px] p-[24px_22px] cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.75 flex flex-col ${isInfra ? "hover:border-[rgba(240,165,0,0.4)] hover:bg-[#12100a]" : ""}`}>
+                    className={`bg-[#131920] border border-[#1c2530] rounded-[15px] p-[24px_22px] cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.75 flex flex-col ${isInfra ? "hover:border-[rgba(240,165,0,0.4)] hover:bg-[#12100a]" : ""}`}
+                  >
                     <div
                       className={`absolute top-0 left-0 right-0 h-0.75 bg-linear-to-r ${bar}`}
                     />
                     <div className="text-[30px] mb-3">{icon}</div>
                     <div
-                      className={`font-mono text-[10px] tracking-[0.12em] uppercase mb-1.5 ${tag}`}>
+                      className={`font-mono text-[10px] tracking-[0.12em] uppercase mb-1.5 ${tag}`}
+                    >
                       {t(C.grp[`g${key}tag`])}
                     </div>
                     <div className="text-lg font-bold mb-1.5">
@@ -495,14 +539,16 @@ export default function App() {
                       {t(C.grp[`g${key}desc`])}
                     </div>
                     <div
-                      className={`mt-3.5 flex items-center gap-1.5 font-mono text-[10.5px] ${isInfra ? "text-[#f0a500]" : "text-[#2d3a47]"}`}>
+                      className={`mt-3.5 flex items-center gap-1.5 font-mono text-[10.5px] ${isInfra ? "text-[#f0a500]" : "text-[#2d3a47]"}`}
+                    >
                       <span
                         className={`w-1.75 h-1.75 rounded-full ${isInfra ? "bg-[#f0a500] shadow-[0_0_6px_rgba(240,165,0,0.5)]" : "bg-[#2d3a47]"}`}
                       />
                       {isInfra ? t(C.grp.statusOpen) : t(C.grp.statusSoon)}
                     </div>
                     <button
-                      className={`mt-3 w-full border text-[13px] font-semibold py-2.5 rounded-lg cursor-pointer ${isInfra ? "bg-[rgba(240,165,0,0.12)] border-[rgba(240,165,0,0.3)] text-[#f0a500]" : "bg-[#181f28] border-[#1c2530] text-slate-200"}`}>
+                      className={`mt-3 w-full border text-[13px] font-semibold py-2.5 rounded-lg cursor-pointer ${isInfra ? "bg-[rgba(240,165,0,0.12)] border-[rgba(240,165,0,0.3)] text-[#f0a500]" : "bg-[#181f28] border-[#1c2530] text-slate-200"}`}
+                    >
                       {isInfra
                         ? t(C.grp.enterItInfra)
                         : `${t(C.grp.enterBtn)} ${t(C.grp[`g${key}title`])} →`}
@@ -550,7 +596,8 @@ export default function App() {
                 ).map((f, i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-2.5 text-[13.5px] text-[#64748b] p-[9px_12px] bg-[#131920] border border-[#1c2530] rounded-lg">
+                    className="flex items-center gap-2.5 text-[13.5px] text-[#64748b] p-[9px_12px] bg-[#131920] border border-[#1c2530] rounded-lg"
+                  >
                     <span>⚙️</span>
                     {f}
                   </div>
@@ -583,7 +630,8 @@ export default function App() {
                 {(lang === "tl" ? C.itf.chips.tl : C.itf.chips.en).map((c) => (
                   <span
                     key={c}
-                    className="font-mono text-[11px] border border-[#1c2530] rounded-[20px] px-3.5 py-1.5 text-[#64748b]">
+                    className="font-mono text-[11px] border border-[#1c2530] rounded-[20px] px-3.5 py-1.5 text-[#64748b]"
+                  >
                     {c}
                   </span>
                 ))}
@@ -613,7 +661,10 @@ export default function App() {
                 const avail = d.lessons.filter((l) => l.available).length;
                 const levelMap = {
                   beginner: t({ en: "Beginner", tl: "Simula" }),
-                  intermediate: t({ en: "Intermediate", tl: "Katamtaman" }),
+                  intermediate: t({
+                    en: "Intermediate",
+                    tl: "Katamtaman",
+                  }),
                   advanced: t({ en: "Advanced", tl: "Advanced" }),
                 };
                 return (
@@ -624,10 +675,12 @@ export default function App() {
                       setTrackParent("s-itinfra");
                       show("s-track");
                     }}
-                    className="bg-[#131920] border border-[#1c2530] rounded-[13px] p-5 cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.5 flex flex-col">
+                    className="bg-[#131920] border border-[#1c2530] rounded-[13px] p-5 cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.5 flex flex-col"
+                  >
                     <div className="text-[26px] mb-2.5">{d.icon}</div>
                     <span
-                      className={`font-mono text-[9.5px] tracking-widest uppercase border rounded px-2 py-0.5 inline-block mb-1.5 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : d.level === "intermediate" ? "text-amber-400 border-[rgba(245,158,11,0.3)]" : "text-red-400 border-[rgba(248,113,113,0.3)]"}`}>
+                      className={`font-mono text-[9.5px] tracking-widest uppercase border rounded px-2 py-0.5 inline-block mb-1.5 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : d.level === "intermediate" ? "text-amber-400 border-[rgba(245,158,11,0.3)]" : "text-red-400 border-[rgba(248,113,113,0.3)]"}`}
+                    >
                       {levelMap[d.level]}
                     </span>
                     <div className="text-[15.5px] font-bold mb-1.5">
@@ -687,7 +740,8 @@ export default function App() {
                 {(lang === "tl" ? C.hw.chips.tl : C.hw.chips.en).map((c) => (
                   <span
                     key={c}
-                    className="font-mono text-[11px] border border-[#1c2530] rounded-[20px] px-3.5 py-1.5 text-[#64748b]">
+                    className="font-mono text-[11px] border border-[#1c2530] rounded-[20px] px-3.5 py-1.5 text-[#64748b]"
+                  >
                     {c}
                   </span>
                 ))}
@@ -721,10 +775,12 @@ export default function App() {
                     show("s-track");
                   }}
                   className="bg-[#131920] border border-[#1c2530] rounded-[13px] p-5 cursor-pointer relative overflow-hidden transition-all hover:-translate-y-0.5 flex flex-col"
-                  style={{ borderBottom: `2px solid ${d.color}` }}>
+                  style={{ borderBottom: `2px solid ${d.color}` }}
+                >
                   <div className="text-[26px] mb-2.5">{d.icon}</div>
                   <span
-                    className={`font-mono text-[9.5px] tracking-widest uppercase border rounded px-2 py-0.5 inline-block mb-1.5 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : "text-amber-400 border-[rgba(245,158,11,0.3)]"}`}>
+                    className={`font-mono text-[9.5px] tracking-widest uppercase border rounded px-2 py-0.5 inline-block mb-1.5 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : "text-amber-400 border-[rgba(245,158,11,0.3)]"}`}
+                  >
                     {t(d.levelLabel)}
                   </span>
                   <div className="text-[15.5px] font-bold mb-1.5">
@@ -762,11 +818,12 @@ export default function App() {
                     onClick={() => {
                       if (isHw) show("s-hardware");
                       else show("s-itinfra");
-                    }}>
+                    }}
+                  >
                     {isHw
                       ? t(C.hw.back)
-                        .replace("all groups", "Hardware Group")
-                        .replace("lahat ng pangkat", "Hardware Group")
+                          .replace("all groups", "Hardware Group")
+                          .replace("lahat ng pangkat", "Hardware Group")
                       : t(C.td.back)}
                   </BackBtn>
                   <div className="mb-8">
@@ -776,7 +833,8 @@ export default function App() {
                         style={{
                           background: `${d.color}15`,
                           border: `1px solid ${d.color}40`,
-                        }}>
+                        }}
+                      >
                         {d.icon}
                       </div>
                       <div>
@@ -795,7 +853,8 @@ export default function App() {
                     </p>
                     <div className="flex gap-2 flex-wrap">
                       <span
-                        className={`font-mono text-[10.5px] border rounded-[20px] px-3 py-1 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : d.level === "intermediate" ? "text-amber-400 border-[rgba(245,158,11,0.3)]" : "text-red-400 border-[rgba(248,113,113,0.3)]"}`}>
+                        className={`font-mono text-[10.5px] border rounded-[20px] px-3 py-1 ${d.level === "beginner" ? "text-green-400 border-[rgba(74,222,128,0.3)]" : d.level === "intermediate" ? "text-amber-400 border-[rgba(245,158,11,0.3)]" : "text-red-400 border-[rgba(248,113,113,0.3)]"}`}
+                      >
                         {t(d.levelLabel)}
                       </span>
                       <span className="font-mono text-[10.5px] border border-[#1c2530] rounded-[20px] px-3 py-1 text-[#64748b]">
@@ -814,15 +873,19 @@ export default function App() {
                   </div>
                   <div
                     className="bg-[#131920] border border-[#1c2530] border-l-[3px] rounded-r-xl p-5 mb-8"
-                    style={{ borderLeftColor: d.color }}>
+                    style={{ borderLeftColor: d.color }}
+                  >
                     <div
                       className="font-mono text-[10px] tracking-[0.15em] uppercase mb-2.5"
-                      style={{ color: d.color }}>
+                      style={{ color: d.color }}
+                    >
                       {t(C.td.abLabel)}
                     </div>
                     <div
                       className="text-[15px] text-slate-200 leading-[1.75]"
-                      dangerouslySetInnerHTML={{ __html: t(d.analogy) }}
+                      dangerouslySetInnerHTML={{
+                        __html: t(d.analogy),
+                      }}
                     />
                   </div>
                   <div className="font-mono text-[10.5px] tracking-[0.18em] text-[#64748b] uppercase mb-3">
@@ -836,7 +899,8 @@ export default function App() {
                           if (l.available && l.url)
                             window.open(l.url, "_blank");
                         }}
-                        className={`flex items-start gap-3 bg-[#131920] border border-[#1c2530] rounded-lg p-[13px_14px] transition-colors ${l.available ? "cursor-pointer hover:border-[#2a3a4d] hover:bg-[#181f28]" : "cursor-default"}`}>
+                        className={`flex items-start gap-3 bg-[#131920] border border-[#1c2530] rounded-lg p-[13px_14px] transition-colors ${l.available ? "cursor-pointer hover:border-[#2a3a4d] hover:bg-[#181f28]" : "cursor-default"}`}
+                      >
                         <span className="font-mono text-[11px] text-[#2d3a47] w-5 text-right shrink-0 pt-0.5">
                           {String(l.n).padStart(2, "0")}
                         </span>
@@ -845,16 +909,19 @@ export default function App() {
                         />
                         <div className="flex-1 min-w-0">
                           <div
-                            className={`text-[13.5px] font-semibold leading-snug mb-0.5 ${!l.available ? "text-[#64748b]" : ""}`}>
+                            className={`text-[13.5px] font-semibold leading-snug mb-0.5 ${!l.available ? "text-[#64748b]" : ""}`}
+                          >
                             {t(l.title)}
                           </div>
                           <div
-                            className={`text-[11.5px] leading-snug ${l.available ? "text-[#64748b]" : "text-[#2d3a47]"}`}>
+                            className={`text-[11.5px] leading-snug ${l.available ? "text-[#64748b]" : "text-[#2d3a47]"}`}
+                          >
                             {t(l.desc)}
                           </div>
                         </div>
                         <span
-                          className={`font-mono text-[9.5px] whitespace-nowrap pt-0.5 shrink-0 ${l.available ? "text-green-400" : "text-[#2d3a47]"}`}>
+                          className={`font-mono text-[9.5px] whitespace-nowrap pt-0.5 shrink-0 ${l.available ? "text-green-400" : "text-[#2d3a47]"}`}
+                        >
                           {l.available ? t(C.td.avail) : t(C.td.soon)}
                         </span>
                         {l.available && (
@@ -871,7 +938,8 @@ export default function App() {
                         onClick={() => {
                           const first = avail[0];
                           if (first?.url) window.open(first.url, "_blank");
-                        }}>
+                        }}
+                      >
                         {activeTrack === "proxmox"
                           ? t(C.td.openBtn)
                           : t(C.td.startBtn)}{" "}
