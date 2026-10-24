@@ -262,6 +262,9 @@
   .z-\[500\] {
     z-index: 500;
   }
+  .mx-\[20\%\] {
+    margin-inline: 20%;
+  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -429,6 +432,9 @@
   }
   .w-\[60px\] {
     width: 60px;
+  }
+  .w-\[70\%\] {
+    width: 70%;
   }
   .w-fit {
     width: fit-content;
@@ -1220,8 +1226,8 @@
   .opacity-0 {
     opacity: 0%;
   }
-  .opacity-20 {
-    opacity: 20%;
+  .opacity-5 {
+    opacity: 5%;
   }
   .opacity-30 {
     opacity: 30%;

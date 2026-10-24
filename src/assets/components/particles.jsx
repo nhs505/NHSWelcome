@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 export default function Particles({
-    count = 65,
+    count = 100,
     color = "240, 165, 0", // gold (RGB)
     maxSize = 2.2,
     speed = 1,
