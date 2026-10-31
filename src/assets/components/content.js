@@ -299,8 +299,8 @@ export const INITIAL_ANNOUNCEMENTS = [
 export const C = {
      w: {
           badge: {
-               en: "SFM · Special Task Force · NHS · 6 Specialized Groups",
-               tl: "SFM · Special Task Force · NHS · 6 na Pangkat",
+               en: "SFM · Special Task Force · NHS",
+               tl: "SFM · Special Task Force · NHS",
           },
           pre: { en: "Welcome to", tl: "Maligayang\nPagdating sa" },
           sub1: {

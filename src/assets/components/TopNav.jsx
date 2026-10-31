@@ -5,94 +5,151 @@
  * and "Sign In" buttons.
  */
 
-export default function TopNav({
+import React from "react";
+import { Layout, Button, Radio } from "antd";
+
+const { Header, Content, Footer } = Layout;
+const items = Array.from({ length: 5 }).map((_, index) => ({
+     key: index + 1,
+     label: `nav ${index + 1}`,
+}));
+
+const TopNav = ({
      lang,
      setLang,
      currentScreen,
      onNavigate,
      onOpenTraineeRegister,
      onOpenLogin,
-}) {
+}) => {
      if (currentScreen === "s-boot") return null;
 
      return (
-          <header className="sticky top-0 z-50 backdrop-blur-md bg-[#08090c]/85 border-b border-[#1c2530] px-4 md:px-8 py-3">
-               <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          <Layout>
+               <Header
+                    style={{
+                         display: "flex",
+                         justifyContent: "center",
+                         alignItems: "center",
+                         // backgroundColor: "#0f131a",
+                         padding: "0.5rem 2rem",
+                    }}>
                     {/* Brand Logo */}
                     <div className="flex items-center gap-3">
-                         <button
-                              type="button"
+                         <Button
+                              variant="text"
+                              color="primary"
+                              type="link"
+                              style={{
+                                   border: "none",
+                                   backgroundColor: "transparent",
+                                   display: "flex",
+                                   gap: "0.5rem",
+                              }}
                               onClick={() => onNavigate("s-welcome")}
-                              className="flex items-center gap-2 text-left cursor-pointer bg-transparent border-none text-slate-200 hover:text-[#f0a500] transition-colors">
+                              // className=" text-left   border-none text-slate-200  transition-colors"
+                         >
                               <span className="w-2.5 h-2.5 rounded-full bg-[#f0a500] shadow-[0_0_8px_#f0a500]" />
                               <span className="font-mono text-xs font-bold tracking-wider uppercase">
                                    STF-NHS · Recruit Orientation
                               </span>
-                         </button>
-                         <span className="text-[#2d3a47] font-mono text-xs hidden sm:inline">|</span>
-                         <nav className="hidden sm:flex items-center gap-1.5 font-mono text-[11px]">
-                              <button
-                                   type="button"
-                                   onClick={() => onNavigate("s-welcome")}
-                                   className={`px-2.5 py-1 rounded cursor-pointer border-none transition-colors ${
-                                        currentScreen === "s-welcome"
-                                             ? "bg-[#181f28] text-[#f0a500]"
-                                             : "bg-transparent text-[#64748b] hover:text-slate-200"
-                                   }`}>
-                                   Home
-                              </button>
-                              <button
-                                   type="button"
-                                   onClick={() => onNavigate("s-nhs")}
-                                   className={`px-2.5 py-1 rounded cursor-pointer border-none transition-colors ${
-                                        currentScreen === "s-nhs"
-                                             ? "bg-[#181f28] text-[#f0a500]"
-                                             : "bg-transparent text-[#64748b] hover:text-slate-200"
-                                   }`}>
-                                   About NHS
-                              </button>
-                              <button
-                                   type="button"
+                         </Button>
+                         <span className="text-[#2d3a47] font-mono text-xs hidden sm:inline">
+                              |
+                         </span>
+                         <nav className="hidden sm:flex items-center gap-1.5 font-mono ">
+                              <Button
+                                   variant="text"
+                                   color="primary"
+                                   size="small"
+                                   style={{
+                                        border: "none",
+                                        backgroundColor: "transparent",
+                                   }}
                                    onClick={() => onNavigate("s-groups")}
                                    className={`px-2.5 py-1 rounded cursor-pointer border-none transition-colors ${
-                                        ["s-groups", "s-hardware", "s-itinfra", "s-track", "s-soon", "s-lesson"].includes(
-                                             currentScreen
-                                        )
-                                             ? "bg-[#181f28] text-green-400"
-                                             : "bg-transparent text-[#64748b] hover:text-slate-200"
+                                        (
+                                             [
+                                                  "s-groups",
+                                                  "s-hardware",
+                                                  "s-itinfra",
+                                                  "s-track",
+                                                  "s-soon",
+                                                  "s-lesson",
+                                             ].includes(currentScreen)
+                                        ) ?
+                                             "bg-[#181f28] text-green-400"
+                                        :    "bg-transparent text-[#64748b] hover:text-slate-200"
                                    }`}>
-                                   {lang === "tl" ? "6 na Pangkat" : "6 Groups"}
-                              </button>
+                                   {lang === "tl" ? "Grupo" : "Groups"}
+                              </Button>
+                              <span className="text-[#2d3a47] font-mono text-xs hidden sm:inline">
+                                   |
+                              </span>
+                              <Button
+                                   variant="text"
+                                   color="primary"
+                                   size="small"
+                                   style={{
+                                        border: "none",
+                                        backgroundColor: "transparent",
+                                   }}
+                                   onClick={() => onNavigate("s-nhs")}>
+                                   {lang === "tl" ?
+                                        "Tungkol sa NHS"
+                                   :    "About NHS"}
+                              </Button>
+                              <span className="text-[#2d3a47] font-mono text-xs hidden sm:inline">
+                                   |
+                              </span>
                          </nav>
                     </div>
 
                     {/* Right Actions: "I want to be a trainee", "Sign In", and Language Toggle */}
                     <div className="flex items-center gap-2.5">
-
-                         <button
-                              type="button"
+                         <Button
+                              type="link"
+                              variant="text"
+                              color="primary"
+                              size="small"
                               onClick={onOpenLogin}
-                              className="font-mono text-[11px] font-semibold px-3.5 py-1.5 rounded-full bg-[#131920] border border-[#2a3a4d] text-sky-400 hover:bg-[#181f28] cursor-pointer transition-colors">
-                              🔐 {lang === "tl" ? "Mag-Sign In" : "Portal Sign In"}
-                         </button>
+                              style={{
+                                   border: "none",
+                                   backgroundColor: "transparent",
+                              }}>
+                              🔐 {lang === "tl" ? "Sign In" : "Sign In"}
+                         </Button>
 
-                         <div className="flex bg-[#131920] border border-[#1c2530] rounded-full overflow-hidden">
-                              {["en", "tl"].map((l) => (
-                                   <button
-                                        key={l}
-                                        type="button"
-                                        onClick={() => setLang(l)}
-                                        className={`bg-transparent border-none font-mono text-[11px] px-2.5 py-1.5 cursor-pointer tracking-wider transition-colors ${
-                                             lang === l
-                                                  ? "bg-[#181f28] text-[#f0a500]"
-                                                  : "text-[#64748b] hover:text-slate-200"
-                                        }`}>
-                                        {l.toUpperCase()}
-                                   </button>
-                              ))}
+                         <div className="absolute right-10 rounded-full overflow-hidden bg-transparent">
+                              <Radio.Group
+                                   value={lang}
+                                   color="primary"
+                                   size="small"
+                                   style={{
+                                        display: "flex",
+                                        border: "none",
+                                        backgroundColor: "transparent",
+                                        contentFontSize: "0.75rem",
+                                   }}>
+                                   {["en", "tl"].map((l) => (
+                                        <Radio.Button
+                                             // color="transparent"
+                                             value={l}
+                                             size="small"
+                                             onClick={() => setLang(l)}
+                                             style={{
+                                                  border: "none",
+                                                  backgroundColor:
+                                                       "transparent",
+                                             }}>
+                                             {l.toUpperCase()}
+                                        </Radio.Button>
+                                   ))}
+                              </Radio.Group>
                          </div>
                     </div>
-               </div>
-          </header>
+               </Header>
+          </Layout>
      );
-}
+};
+export default TopNav;
